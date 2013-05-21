@@ -1,0 +1,13 @@
+
+
+
+文件下载部分(process_file_download.php)
+的代码思路来自这里:
+http://stackoverflow.com/questions/365777/starting-file-download-with-javascript
+
+
+
+
+
+
+

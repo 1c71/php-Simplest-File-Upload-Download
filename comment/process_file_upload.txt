@@ -1,0 +1,80 @@
+
+
+file/ 存放上传的文件. (这个目录其实可以自己在process_file_upload.php里面自己设置的)
+
+
+
+我们的这个file/目录保存用户上传文件的时候, 并不是全部扔到这个文件夹里就行.
+
+
+
+因为我们会碰到下面这些问题: 
+    [1]
+    不同的磁盘格式(FAT/FAT32/NTFS)有不同的文件数量限制(我也不知道为什么). 
+    所以,file目录放的文件是有限制的.
+
+    [2]
+    如果所有文件都放在file目录里, 
+    如果用户上传了同名文件, 那么后上传的那个会覆盖掉较早上传的那个.
+
+
+[1]的补充链接:
+
+    How many files in a directory is too many?
+    http://stackoverflow.com/questions/466521/how-many-files-in-a-directory-is-too-many 
+    
+    How many files can a windows folder contain?
+    http://superuser.com/questions/16207/how-many-files-can-a-windows-folder-contain
+
+
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ====
+
+
+
+解决问题[1]: 
+
+    我们按照日期创建文件夹, 把文件放在里头.
+    比如你2013年5月16号上传了一个mp4文件, 那么文件存放路径是
+    file/2013-5-16/文件名
+
+    但是这样还不够, 网站用的人数越多..这个目录里的文件也越多..还是有可能达到文件数量限制..
+
+    我们干脆再根据文件的后缀来进行分类, 我们约定这样分类:
+
+        text  -- 文本文件(doc/xls/txt/pdf/ass/srt)
+        image -- 图片(png/jpg/gif/bmp/psd)
+        video -- 视频(rmvb/mp4/avi/wmv/flv)
+        audio -- 音频(mp3/aif/aiff)
+        zip -- 压缩包(rar/zip/7z)
+        other -- 程序无法识别类型的文件都放在这边
+
+
+    所以一共有6个文件夹在file里:
+        file/text/
+        file/image/
+        file/video/
+        file/audio/
+        file/zip/
+        file/other/
+
+
+    如果网站使用人数是达到一定数量, 那我们就再次细分...
+
+
+
+解决问题[2]:
+    我们给每个文件一个独一无二的文件名, 
+    文件名是一串数字 + 原文件的后缀.
+
+    数字是利用php函数来生成的:  time().rand(1,10000).rand(1,10000).rand(1,10000)
+
+    time() 返回自从 Unix 纪元(格林威治时间 1970 年 1 月 1 日 00:00:00)到当前时间的秒数.
+
+    rand(1,10000) 返回的是1~10000的随机值
+
+    我们用点号'.'连接起来 这样文件名重复的几率就大大缩小了,
+
+    不用担心会把原来的名字丢了, 我们在数据库里存起来就是了.
+
+
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ====

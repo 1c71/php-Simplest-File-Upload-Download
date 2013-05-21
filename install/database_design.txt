@@ -1,0 +1,103 @@
+
+
+数据库设计:
+
+
+create database file_download default charset utf8;
+# 创建一个名为file_download的数据库, 同时默认编码为utf-8, 这样就可以存储中文而不会乱码 
+
+
+use file_download;
+# 选中我们刚刚创建的数据库
+
+
+create table file(
+
+    id  int unsigned   primary key auto_increment,   
+    # 文件的id, 这是为了唯一性, 让文件有个独一无二的数据
+    
+
+    path   varchar(23400),           
+    # 我们在数据库里存放文件路径, 不存放文件 
+
+
+    name   varchar(3000),
+    # 文件名
+
+
+    intro   varchar(3000)
+    # 文件描述
+
+
+)default charset=utf8;
+
+
+
+
+
+==== ==== ==== ==== ==== ==== ==== ====
+
+
+
+额外说明: 
+utf-8里面的字符范围是2~4个字节, 就是说有一些字符占2个字节, 有一些占4个字节. 
+但汉字一般是占3个字节.
+也就是说 varchar(3000), 不出意外的话能存放1000个汉字 或是 3000个英文字符....
+
+
+
+
+我的电脑环境: windowx7 64位
+    经过测试, 中文也好, 英文也好
+    文件名最多234个字符.
+所以我们把 path 设成 23400, 我就不信有比这个还长的路径..
+
+
+
+
+
+
+TINYINT：有符号的范围是-128至127，无符号的范围是0到255，2的8次方
+SMALLINT： 有符号的范围是-32768至32767，无符号的范围是0到65535，2的16次方
+MEDIUMINT：有符号的范围是-8388608至8388607，无符号的范围是0到16777215，2的24次方
+INT(integer)：有符号的范围是-2147483648至2147483647，无符号的范围是0到4294967295，2的32次方
+BIGINT：有符号的范围是-9223372036854775808至9223372036854775807，无符号的范围是0到18446744073709551615，2的64次方
+
+
+
+
+
+
+
+==== ==== ==== ==== ==== ==== ==== ====
+
+
+一些常用语句:
+
+
+实际上数据库有多少条数据 = 我们有多少个文件..
+所以查询出来的数字, 就是文件总数.
+
+select count(id) from file;
+
+
+
+
+增:
+insert into file (path,name,intro) values();
+
+
+
+删:
+delete from file where id='xx';
+
+
+
+改:
+update file set type=$sort, path='xx', name='xx', intro='xx' where id='xx';
+
+
+
+查:
+select * from file where xx=xx;
+

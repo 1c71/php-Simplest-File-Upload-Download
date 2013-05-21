@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<title>文件上传</title>
+	<style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+
+        a{
+            color: black;
+            text-decoration: none;
+        }
+	</style>
+</head>
+<body>
+
+	<a href="index.php">主页</a>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+	
+	<form enctype="multipart/form-data" action="process_file_upload.php" method="post">
+
+		<input type="file" name='file'>
+		<button type="submit">上传</button>
+
+	</form>
+	<!-- 提交表单 -->
+
+
+</body>
+</html>
